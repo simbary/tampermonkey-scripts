@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         arcane-angler自动钓鱼循环
 // @namespace    https://github.com/simbary
-// @version      1.0
+// @version      1.01
 // @author       simbary
 // @description  在 arcaneangler.com 上实现自动钓鱼循环：自动垂钓 → 等待指定时间 → 结束抛竿 → 确认结果 → 循环
 // @match        https://arcaneangler.com/*
@@ -11,6 +11,13 @@
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
+
+/**
+ * 免责声明：
+ * 本脚本仅供学习与个人研究使用。使用者应自行遵守目标网站的服务条款、
+ * 使用规则及所在地法律法规。因使用本脚本产生的账号限制、数据损失或
+ * 其他直接、间接后果，均由使用者自行承担，脚本作者不承担相关责任。
+ */
 
 (function () {
     "use strict";
