@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         arcane-angler自动钓鱼循环
 // @namespace    https://github.com/simbary
-// @version      1.03
+// @version      1.04
 // @author       simbary
 // @description  在 arcaneangler.com 上实现自动钓鱼循环：自动垂钓 → 等待指定时间 → 结束抛竿 → 确认结果 → 循环。支持高级饵自动购买与装备。
 // @match        https://arcaneangler.com/*
@@ -491,10 +491,12 @@
             "border-bottom: 1px solid #45475a;";
 
         var title = document.createElement("span");
+        title.id = "afc-title";
         title.textContent = "自动钓鱼循环";
         title.style.cssText = "font-weight: bold; font-size: 15px; color: #cba6f7;";
 
         var minBtn = document.createElement("button");
+        minBtn.id = "afc-min-btn";
         minBtn.textContent = "□";
         minBtn.title = "最小化/还原";
         minBtn.style.cssText =
@@ -505,11 +507,24 @@
 
         titleBar.appendChild(title);
         titleBar.appendChild(minBtn);
+        titleBar.style.borderBottom = "1px solid #45475a";
 
         // 内容区（默认最小化）
         var content = document.createElement("div");
         content.id = "afc-content";
         content.style.display = "none";
+
+        // 初始化最小化外观
+        title.style.display = "none";
+        titleBar.style.borderBottom = "none";
+        titleBar.style.marginBottom = "0";
+        titleBar.style.paddingBottom = "0";
+        panel.style.padding = "6px";
+        panel.style.minWidth = "auto";
+        minBtn.style.width = "36px";
+        minBtn.style.height = "36px";
+        minBtn.style.fontSize = "18px";
+        minBtn.textContent = "▤";
 
         // 数字输入行
         var inputRow = document.createElement("div");
@@ -598,8 +613,34 @@
         var minimized = true;
         minBtn.addEventListener("click", function () {
             minimized = !minimized;
+            var t = document.getElementById("afc-title");
+            var tb = minBtn.parentNode;
             content.style.display = minimized ? "none" : "";
-            minBtn.textContent = minimized ? "□" : "─";
+            if (minimized) {
+                // 最小化：隐藏标题，仅保留大号按钮
+                t.style.display = "none";
+                tb.style.borderBottom = "none";
+                tb.style.marginBottom = "0";
+                tb.style.paddingBottom = "0";
+                panel.style.padding = "6px";
+                panel.style.minWidth = "auto";
+                minBtn.style.width = "36px";
+                minBtn.style.height = "36px";
+                minBtn.style.fontSize = "18px";
+                minBtn.textContent = "▤";
+            } else {
+                // 还原
+                t.style.display = "";
+                tb.style.borderBottom = "1px solid #45475a";
+                tb.style.marginBottom = "10px";
+                tb.style.paddingBottom = "8px";
+                panel.style.padding = "12px 14px";
+                panel.style.minWidth = "260px";
+                minBtn.style.width = "24px";
+                minBtn.style.height = "24px";
+                minBtn.style.fontSize = "14px";
+                minBtn.textContent = "─";
+            }
             log(minimized ? "📦 悬浮窗最小化" : "📂 悬浮窗还原");
         });
 
@@ -659,7 +700,7 @@
     // ============ 初始化 ============
     function init() {
         if (document.getElementById("afc-panel")) return;
-        log("🔧 初始化 arcane-angler自动钓鱼循环 v1.03");
+        log("🔧 初始化 arcane-angler自动钓鱼循环 v1.04");
         installPlayerTracker();
         createPanel();
     }
