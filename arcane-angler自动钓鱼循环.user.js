@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         arcane-angler自动钓鱼循环
 // @namespace    https://github.com/simbary
-// @version      1.01
+// @version      1.02
 // @author       simbary
 // @description  在 arcaneangler.com 上实现自动钓鱼循环：自动垂钓 → 等待指定时间 → 结束抛竿 → 确认结果 → 循环
 // @match        https://arcaneangler.com/*
@@ -313,6 +313,7 @@
         // 内容区
         const content = document.createElement("div");
         content.id = "afc-content";
+        content.style.display = "none";
 
         // --- 数字输入行 ---
         const inputRow = document.createElement("div");
@@ -385,7 +386,7 @@
         document.body.appendChild(panel);
 
         // === 事件绑定 ===
-        let minimized = false;
+        let minimized = true;
         minBtn.addEventListener("click", () => {
             minimized = !minimized;
             content.style.display = minimized ? "none" : "";
